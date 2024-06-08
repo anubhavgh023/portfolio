@@ -2,7 +2,7 @@ import Image from "next/image";
 
 export default function ProjectSection() {
   return (
-    <div className="flex gap-5 items-center justify-around border border-slate-500 h-96">
+    <div className="flex gap-5 items-center justify-around border border-slate-500 h-96 bg-grid-white/[0.08]">
       <ProjectCard projectName="Project 1" imageUrl="/building.png" />
       <ProjectCard projectName="Project 2" imageUrl="/building.png" />
       <ProjectCard projectName="Project 3" imageUrl="/building.png" />
