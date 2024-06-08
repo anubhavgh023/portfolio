@@ -51,28 +51,31 @@ export default function Socials() {
       {/* email */}
       <div className="flex items-center justify-center gap-2 pt-10 flex-shrink">
         <div className="flex flex-col justify-center items-center gap-1">
-        <code className="text-slate-300 font-semibold">contact@anubhavsamanta.tech</code>
-        <button
-          onClick={copyToClipboard}
-          className="rounded-md hover:scale-95"
-        >{copySuccess ? (
-            <Image
-              src="/clipboard-ticked-icon.svg"
-              width={20}
-              height={10}
-              alt="Clipboard ticked icon"
-              className="bg-green-500 rounded-sm"
-            />
-          ) : (
-            <Image
-              src="/clipboard-icon.svg"
-              width={20}
-              height={30}
-              alt="Clipboard icon"
-              className="bg-white rounded-sm"
-            />
-          )}
-        </button>
+          <code className="text-slate-300 font-semibold">
+            contact@anubhavsamanta.tech
+          </code>
+          <button
+            onClick={copyToClipboard}
+            className="rounded-md hover:scale-95"
+          >
+            {copySuccess ? (
+              <Image
+                src="/clipboard-ticked-icon.svg"
+                width={20}
+                height={10}
+                alt="Clipboard ticked icon"
+                className="bg-green-500 rounded-sm"
+              />
+            ) : (
+              <Image
+                src="/clipboard-icon.svg"
+                width={20}
+                height={30}
+                alt="Clipboard icon"
+                className="bg-white rounded-sm"
+              />
+            )}
+          </button>
         </div>
       </div>
     </div>
