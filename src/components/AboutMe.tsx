@@ -4,7 +4,7 @@ import { TextGenerateEffect } from "@/components/ui/text-generate-effect";
 
 export default function AboutMe() {
   return (
-    <div className="border border-slate-500 w-auto h-full rounded-md p-1">
+    <div className="bg-slate-950 border border-slate-800 w-auto h-full rounded-md p-1">
       <IntroText></IntroText>
       <div className="text-center mt-18">
       <GenerateAboutMe></GenerateAboutMe>

@@ -12,7 +12,7 @@ export default function Socials() {
   };
 
   return (
-    <div className="border border-slate-500 w-full rounded-md h-36">
+    <div className="bg-slate-950 border border-slate-800 w-full rounded-md h-36">
       <div className="flex gap-4 justify-evenly mt-2">
         <a href="https://x.com/anubhavs_twt" target="_blank">
           <Image
