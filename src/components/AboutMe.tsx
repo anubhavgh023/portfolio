@@ -36,7 +36,7 @@ function IntroText() {
 const words = `Interested in : CS Fundamentals | Software Engineering | Cloud Computing | DevOps.`;
 export function GenerateAboutMe() {
   return (
-    <div className="text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl">
+    <div className="text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl text-center">
       <TextGenerateEffect words={words} />
     </div>
   );
