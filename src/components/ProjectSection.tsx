@@ -19,7 +19,7 @@ function ProjectCard({
   imageUrl: string;
 }) {
   return (
-    <div className="flex flex-col items-center border border-gray-300 rounded-lg shadow-lg p-4 h-64 w-full max-w-xs mx-auto bg-gray-950 text-white">
+    <div className="flex flex-col items-center border border-gray-600 rounded-lg shadow-lg p-4 h-64 w-full max-w-xs mx-auto bg-gray-950 text-white relative overflow-hidden group">
       <Image
         src={imageUrl}
         alt={projectName}
@@ -32,6 +32,8 @@ function ProjectCard({
       <button className="bg-white text-gray-900 font-semibold py-2 px-4 rounded hover:bg-gray-300 mt-2">
         Explore
       </button>
+      {/* Glowing border ring effect */}
+      <div className="absolute inset-0 border-4 border-transparent rounded-lg pointer-events-none group-hover:border-blue-500 animate-pulse"></div>
     </div>
   );
 }
