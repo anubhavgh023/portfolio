@@ -2,7 +2,7 @@ import Image from "next/image";
 
 export default function ProjectSection() {
   return (
-    <div className="bg-slate-950 flex-col gap-5 items-center justify-around border border-slate-800 rounded-md h-96 bg-grid-white/[0.08]">
+    <div className="bg-slate-950 flex flex-col md:flex-row lg:flex-row gap-5 items-center justify-around border border-slate-800 rounded-md p-5 lg:p-10   bg-grid-white/[0.08]">
       <ProjectCard projectName="Building🛠️" imageUrl="/building.png" />
       <ProjectCard projectName="Building🛠️" imageUrl="/building.png" />
       <ProjectCard projectName="Building🛠️" imageUrl="/building.png" />
@@ -19,7 +19,7 @@ function ProjectCard({
   imageUrl: string;
 }) {
   return (
-    <div className="flex flex-col items-center border border-gray-300 rounded-lg shadow-lg p-4 h-64 w-72 bg-gray-950 text-white">
+    <div className="flex flex-col items-center border border-gray-300 rounded-lg shadow-lg p-4 h-64 w-full max-w-xs mx-auto bg-gray-950 text-white">
       <Image
         src={imageUrl}
         alt={projectName}
