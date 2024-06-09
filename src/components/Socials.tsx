@@ -12,15 +12,15 @@ export default function Socials() {
   };
 
   return (
-    <div className="bg-slate-950 border border-slate-800 w-full rounded-md h-36">
+    <div className="bg-slate-950 border border-slate-800 w-full rounded-md p-4">
       <div className="flex gap-4 justify-evenly mt-2">
         <a href="https://x.com/anubhavs_twt" target="_blank">
           <Image
             src="/x-logo.svg"
             width={40}
-            height={300}
+            height={40}
             alt="X Logo"
-            className="bg-white hover:scale-95 hover:opacity-55"
+            className="bg-white hover:scale-95 hover:opacity-75"
           ></Image>
         </a>
 
@@ -31,7 +31,7 @@ export default function Socials() {
           <Image
             src="/linkedin-logo.svg"
             width={40}
-            height={30}
+            height={40}
             alt="Linkedin Logo"
             className="hover:scale-95 hover:opacity-55"
           ></Image>
@@ -41,7 +41,7 @@ export default function Socials() {
           <Image
             src="/github-logo.svg"
             width={40}
-            height={300}
+            height={40}
             alt="Github Logo"
             className="bg-white rounded-md hover:scale-95 hover:opacity-55"
           ></Image>
@@ -49,9 +49,9 @@ export default function Socials() {
       </div>
 
       {/* email */}
-      <div className="flex items-center justify-center gap-2 pt-10 flex-shrink">
+      <div className="flex items-center justify-center gap-2 pt-6">
         <div className="flex flex-col justify-center items-center gap-1">
-          <code className="text-slate-300 font-semibold">
+          <code className="text-slate-300 font-semibold text-xm md:text-sm lg:text-base truncate w-full overflow-hidden">
             contact@anubhavsamanta.tech
           </code>
           <button
@@ -62,7 +62,7 @@ export default function Socials() {
               <Image
                 src="/clipboard-ticked-icon.svg"
                 width={20}
-                height={10}
+                height={20}
                 alt="Clipboard ticked icon"
                 className="bg-green-500 rounded-sm"
               />
@@ -70,7 +70,7 @@ export default function Socials() {
               <Image
                 src="/clipboard-icon.svg"
                 width={20}
-                height={30}
+                height={20}
                 alt="Clipboard icon"
                 className="bg-white rounded-sm"
               />
