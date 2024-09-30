@@ -1,0 +1,106 @@
+body {
+  background-color:#212529;
+  color: #c9d9e2;
+  font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+  margin: 0;
+  padding: 0;
+  min-height: 50vh;
+}
+
+a {
+  color: lightblue;
+  font-size: 20px;
+  text-decoration: none;
+}
+
+img {
+  height: 200px;
+  border-radius: 10px;
+  border: #d3d3d3;
+  margin-right: 20px;
+}
+
+
+.contacts{
+  gap: 20px;
+}
+
+.nav-bar{
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+  gap: 10px;
+}
+
+.about {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 32px;
+  text-align: left;
+  text-align: center;
+  min-height: 50vh;
+}
+
+.about img{
+  width: 200px;
+}
+
+.blogs{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 32px;
+  text-align: left;
+  text-align: center;
+  min-height: 50vh;
+}
+
+.blog-content {
+  max-width: 800px; /* Limits the blog's width */
+  font-size: 18px;
+  margin: 0 auto; /* Centers the blog content */
+  padding: 20px;
+  line-height: 1.6; /* Improves readability */
+}
+
+.blog-img{
+  display: flex;
+  padding: 10px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+img{
+  max-width: 100%;
+  height: auto;
+}
+
+.title{
+  color: lightblue;
+}
+
+h1, h2 {
+  text-align: center;
+}
+
+/* Blog-specific styling */
+blockquote {
+  border-left: 5px solid lightblue;
+  padding-left: 15px;
+  font-size: 18px;
+  margin: 20px auto;
+  max-width: 700px;
+}
+
+pre code {
+  background-color: #212121;
+  padding: 12px;
+  border-radius: 4px;
+  display: block;
+  overflow-x: auto;
+  max-width: 700px;
+  margin: 0 auto;
+}

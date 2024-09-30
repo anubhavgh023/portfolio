@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>blog</title>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/github-dark.min.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+	<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body>
+	<nav class="nav-bar">
+		<a href="../index.html">[ home ]</a>
+		<a href="../blogs.html">[ blogs ]</a>
+	</nav>
+	<div class="blog-content">
+		<img src="preview-assets/b1-29042024.png" alt="">
+		<h1 id="-go-benchmarks-does-pass-by-pointer-really-make-a-difference-"><span class="title">Go Benchmarks:</span>Does
+			Pass by Pointer Really
+			Make a Difference?</h1>
+		<blockquote>
+			<p><strong><em>TL;DR: Pass by Value vs. Pass by Pointer in Go</em></strong></p>
+			<ul>
+				<li><strong><em>Pass by Value</em></strong>: Copies the entire struct when passed to a function, causing
+					performance issues for large structs.</li>
+				<li><strong><em>Pass by Pointer</em></strong>: Passes a reference (pointer) to the struct, avoiding the
+					overhead of copying large data.</li>
+				<li><em><strong>Performance Loss</strong></em>: Pass by value starts to slow down noticeably when struct
+					sizes exceed 10MB due to the memory cost of copying.</li>
+				<li><em><strong>Optimal for Large Structs</strong></em>: Pass by pointer is more efficient and stable,
+					especially for data sizes greater than 10MB.</li>
+				<li><em><strong>Key Insight</strong>:</em> For small structs, pass by value is fine. For larger structs, use
+					pass by pointer to save time and memory.
+					<hr />
+				</li>
+			</ul>
+		</blockquote>
+		<p>I've been diving deep into Go over the past week, exploring its features and performance characteristics.
+		</p>
+		<p>One of the fundamental concepts I've been examining is how Go handles data passing in
+			<strong><em>functions</em></strong>, particularly with <strong><em>structs</em></strong>.
+		</p>
+		<p>But first, what is a even a <strong><em>struct</em></strong> ?</p>
+		<ul>
+			<li>A struct in Go is a way to group different types of data together similar to C.</li>
+		</ul>
+		<p>For example, here&#39;s a struct of 1024Mb (1Gb):</p>
+		<pre><code class="language-go"><span class="hljs-class"><span class="hljs-keyword">type</span> <span class="hljs-title">LargeStruct</span></span> <span class="hljs-class"><span class="hljs-keyword">struct</span> {</span>
+    data [<span class="hljs-number">1024</span> * <span class="hljs-number">1024</span> * <span class="hljs-number">1024</span>]byte <span class="hljs-comment">// 1024MB of data (1 GB)</span>
+}
+<span class="hljs-comment">// 1024 bytes = 1KB</span>
+<span class="hljs-comment">// 1024 KB = 1MB</span>
+<span class="hljs-comment">// 1024 MB = 1GB</span>
+</code></pre>
+		<hr />
+
+		<h2 id="-benchmarking-pass-by-value-vs-pass-by-pointer-"><strong>Benchmarking: Pass by Value vs. Pass by
+				Pointer</strong></h2>
+		<p>The key question is: Should you pass <strong><em>structs</em></strong> by <em>value</em> or by <em>pointer</em>
+			when performance matters?</p>
+		<p>In Go, you can pass a struct to a function in two ways:</p>
+		<p><strong><em>Pass by Value</em></strong>: A copy of the entire struct is made, which can be inefficient for large
+			structs as it uses additional memory and processing time.</p>
+		<p><strong><em>Pass by Pointer</em></strong>: Instead of passing the whole struct, you pass a pointer to it. This
+			avoids copying the struct, making it more memory-efficient, especially for large data sizes.</p>
+		<p><strong>The Benchmark Setup</strong></p>
+		<p>To truly understand the performance difference, I designed a benchmark that compares passing large structs by
+			value and by pointer. My goal was to identify when passing by value becomes inefficient as the struct size
+			grows.</p>
+		<hr />
+
+		<p><strong>How Did I Benchmark?</strong></p>
+		<ul>
+			<li>The benchmark involves gradually increasing the struct size from 1 byte to 1GB while comparing the
+				time(nanoseconds) it takes to pass these structs by value and by pointer and increasing the struct size 2x
+				with each iteration.</li>
+			<li>For each size, I recorded the execution time using Go’s high-precision timers and exported them to a CSV for
+				visualization.</li>
+		</ul>
+		<pre><code class="language-go">    <span class="hljs-comment">// Run benchmarks for sizes from 1 byte to 1024MB (1 Gb)</span>
+    <span class="hljs-built_in">for</span> <span class="hljs-built_in">size</span> := <span class="hljs-number">1</span>; <span class="hljs-built_in">size</span> &lt;= <span class="hljs-number">1</span>*<span class="hljs-number">1024</span>*<span class="hljs-number">1024</span>*<span class="hljs-number">1024</span>; <span class="hljs-built_in">size</span> *= <span class="hljs-number">2</span> { <span class="hljs-comment">// Increase size by 2x</span>
+        durationValue, durationPointer := benchmark(<span class="hljs-built_in">size</span>)
+
+        <span class="hljs-comment">// Convert size to megabytes for easier readability</span>
+        sizeMB := float64(<span class="hljs-built_in">size</span>) / (<span class="hljs-number">1024</span> * <span class="hljs-number">1024</span>)
+
+        <span class="hljs-comment">// Write the results to CSV (size in MB, passByValue time, passByPointer time)</span>
+        writer.Write([]<span class="hljs-keyword">string</span>{
+            fmt.Sprintf(<span class="hljs-string">"%.8f"</span>, sizeMB),
+            fmt.Sprintf(<span class="hljs-string">"%d"</span>, durationValue.Nanoseconds()),
+            fmt.Sprintf(<span class="hljs-string">"%d"</span>, durationPointer.Nanoseconds()),
+        })
+
+        <span class="hljs-comment">// Print status to monitor progress</span>
+        fmt.Printf(<span class="hljs-string">"Completed benchmark for size: %.8f MB \n"</span>, sizeMB)
+    }
+</code></pre>
+		<ul>
+			<li>generated csv file looks like this:
+				<img src="https://dev-to-uploads.s3.amazonaws.com/uploads/articles/k4dni6sg27ymxys65hbh.png"
+					alt="csv file of results">
+			</li>
+		</ul>
+		<p><strong>Benchmarking process:</strong></p>
+		<ol>
+			<li><em>Run the test</em>: Each struct size was tested for both pass-by-value and pass-by-pointer methods.</li>
+			<li><em>Record the results</em>: Execution time was recorded for each size and method.</li>
+			<li><em>Visualize the results</em>: The results were plotted to observe how the performance scales as the struct
+				size increases using python3 &amp; matplotlib.
+				<hr />
+
+			</li>
+		</ol>
+		<p><strong>Analyzing the Results</strong>
+		<div class="blog-img">
+			<img src="https://dev-to-uploads.s3.amazonaws.com/uploads/articles/3th7ok43mewoxbxk8sdq.gif"
+				alt="benchmark graph">
+			</p>
+			<p><img src="https://dev-to-uploads.s3.amazonaws.com/uploads/articles/c4bjg9wqj55xlozgthm0.png"
+					alt="Image description"></p>
+
+		</div>
+		<ul>
+			<li>
+				<p>From the graph, it’s clear that passing by value starts to slow down significantly as struct sizes
+					increase, <strong>especially beyond 10MB</strong>. Passing by pointer remains relatively constant, with
+					only a slight increase in execution time as struct size grows.</p>
+			</li>
+			<li>
+				<p>Pass by Value: Noticeable slowdown as size increases, indicating the inefficiency due to copying larger
+					data.</p>
+			</li>
+			<li>Pass by Pointer: More consistent and efficient, with minimal slowdown, making it ideal for larger structs.
+			</li>
+		</ul>
+		<p><strong>Why Does This Happen?</strong></p>
+		<ul>
+			<li>The difference stems from Go&#39;s memory management. When you pass a large struct by value, the entire
+				struct is copied, which increases memory usage and processing time. With a pointer, Go only passes the
+				memory address, avoiding the need to copy large amounts of data.
+				<hr />
+
+			</li>
+		</ul>
+		<p><strong>Takeaways:</strong></p>
+		<ul>
+			<li>For small structs, pass by value is fine and might even be preferable for simplicity.</li>
+			<li>For larger structs, pass by pointer is more efficient and can save significant time and memory.</li>
+		</ul>
+		<p>Go provides the flexibility to choose based on your performance needs, so understanding the trade-offs is crucial
+		</p>
+		<p><strong>System Specifications:</strong>
+			The benchmarks were run on:
+			<strong>OS</strong>: Pop!_OS 22.04 LTS
+			<strong>CPU</strong>: 13th Gen Intel i5-1340P
+			<strong>RAM</strong>: 16GB
+			<strong>GPU</strong>: Intel Device a7a0
+		</p>
+		<p>This benchmark helped me understand the importance of choosing between pass-by-value and pass-by-pointer in Go
+			functions, especially when dealing with large structs!</p>
+		<hr />
+
+		<p>Here's the entire benchmark's github repo: <a
+				href="https://github.com/anubhavgh023/go-pointer-vs-value-benchmark"
+				target="_blank">go-pointer-vs-value-benchmark</a>
+		</p>
+		<p>
+			Find me on twitter(x): <a href="https://twitter.com/anubhavs_twt" target="_blank">@anubhavs_twt</a>
+		</p>
+		<nav class="nav-bar">
+			<a href="../index.html">[ home ]</a>
+			<a href="../blogs.html">[ blogs ]</a>
+			<a href="../projects.html">[ projects ]</a>
+		</nav>
+	</div>
+</body>
+
+</html>
