@@ -108,7 +108,7 @@ pre code {
 @media (max-width: 768px) {
   .about {
     flex-direction: column; /* Stack elements vertically */
-    font-size: 24px; /* Adjust font size for smaller screens */
+    font-size: 28px; /* Adjust font size for smaller screens */
   }
 
   .about div {
@@ -118,6 +118,6 @@ pre code {
 
 @media (max-width: 480px) {
   .about {
-    font-size: 18px; /* Further reduce font size for very small screens */
+    font-size: 24px; /* Further reduce font size for very small screens */
   }
 }
