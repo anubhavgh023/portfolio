@@ -104,3 +104,20 @@ pre code {
   max-width: 700px;
   margin: 0 auto;
 }
+
+@media (max-width: 768px) {
+  .about {
+    flex-direction: column; /* Stack elements vertically */
+    font-size: 24px; /* Adjust font size for smaller screens */
+  }
+
+  .about div {
+    margin: 10px 0; /* Add margin for better spacing */
+  }
+}
+
+@media (max-width: 480px) {
+  .about {
+    font-size: 18px; /* Further reduce font size for very small screens */
+  }
+}
